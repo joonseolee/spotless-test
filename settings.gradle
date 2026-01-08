@@ -1,0 +1,3 @@
+rootProject.name = 'spotless-test'
+include("gateway")
+include("inapp")

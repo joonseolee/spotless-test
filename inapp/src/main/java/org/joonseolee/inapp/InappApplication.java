@@ -1,0 +1,13 @@
+package org.joonseolee.inapp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class InappApplication {
+
+  public static void main(String[] args) {
+    SpringApplication.run(InappApplication.class, args);
+  }
+
+}

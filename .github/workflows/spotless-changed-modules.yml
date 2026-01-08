@@ -1,0 +1,29 @@
+name: Spotless (Changed Modules)
+
+on:
+  pull_request:
+
+jobs:
+  spotless-check:
+    name: Spotless Check (Changed Modules)
+    runs-on: [self-hosted, linux]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Run spotlessCheck for changed modules
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          bash script/spotless-changed-modules.sh "$BASE_SHA"
