@@ -25,7 +25,5 @@ jobs:
           cache: gradle
 
       - name: Run spotlessCheck for changed modules
-        env:
-          BRANCH_NAME: ${{ github.head_ref }}
         run: |
-          ./script/spotless.sh "BRANCH_NAME"
+          ./script/spotless.sh ${{ github.head_ref }}
