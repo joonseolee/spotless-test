@@ -26,4 +26,4 @@ jobs:
 
       - name: Run spotlessCheck for changed modules
         run: |
-          ./script/spotless.sh ${{ github.head_ref }}
+          ./script/spotless.sh origin/${{ github.head_ref }}
