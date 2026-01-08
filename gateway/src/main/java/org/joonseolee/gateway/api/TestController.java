@@ -11,6 +11,8 @@ public class TestController {
 
   @GetMapping
   public Object sayHello() {
+    // 아무것도 아닌것도 만들어야지
+    int nonValue = 0;
     return Map.of("sentence", "hello world!");
   }
 }
