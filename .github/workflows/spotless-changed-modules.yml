@@ -2,6 +2,8 @@ name: Spotless (Changed Modules)
 
 on:
   pull_request:
+    branches:
+      - main
 
 jobs:
   spotless-check:
@@ -24,6 +26,6 @@ jobs:
 
       - name: Run spotlessCheck for changed modules
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BRANCH_NAME: ${{ github.head_ref }}
         run: |
-          ./script/spotless.sh "$BASE_SHA"
+          ./script/spotless.sh "BRANCH_NAME"
