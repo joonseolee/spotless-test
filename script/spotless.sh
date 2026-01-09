@@ -24,7 +24,7 @@ fi
 modules=()
 while IFS= read -r line; do
   modules+=("$line")
-done < <(rg -o 'include\\("([^"]+)"\\)' settings.gradle | sed -E 's/include\\("([^"]+)"\\)/\\1/')
+done < <(grep -oE 'include\\("([^"]+)"\\)' settings.gradle | sed -E 's/include\\("([^"]+)"\\)/\\1/')
 
 if [[ ${#modules[@]} -eq 0 ]]; then
   echo "No modules found in settings.gradle." >&2
