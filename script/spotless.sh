@@ -9,14 +9,21 @@ if [[ -z "$BASE_SHA" ]]; then
   exit 1
 fi
 
-CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
+if [[ -z "$REPO_ROOT" ]]; then
+  echo "Not a git repository; run from within the repo." >&2
+  exit 1
+fi
+
+CHANGED_FILES=$(git -C "$REPO_ROOT" diff --name-only "$BASE_SHA" "$HEAD_SHA")
 
 if [[ -z "$CHANGED_FILES" ]]; then
   echo "No changed files detected; skipping spotlessCheck."
   exit 0
 fi
 
-if [[ ! -f settings.gradle ]]; then
+SETTINGS_FILE="$REPO_ROOT/settings.gradle"
+if [[ ! -f "$SETTINGS_FILE" ]]; then
   echo "settings.gradle not found; run from repo root." >&2
   exit 1
 fi
@@ -24,7 +31,7 @@ fi
 modules=()
 while IFS= read -r line; do
   modules+=("$line")
-done < <(grep -oE 'include\\("([^"]+)"\\)' settings.gradle | sed -E 's/include\\("([^"]+)"\\)/\\1/')
+done < <(grep -oE 'include\("([^"]+)"\)' "$SETTINGS_FILE" | sed -E 's/include\("([^"]+)"\)/\1/')
 
 if [[ ${#modules[@]} -eq 0 ]]; then
   echo "No modules found in settings.gradle." >&2
@@ -67,5 +74,5 @@ for module in "${selected_modules[@]}"; do
 done
 
 echo "Running spotlessCheck for modules: ${selected_modules[*]}"
-chmod +x gradlew
-./gradlew "${tasks[@]}"
+chmod +x "$REPO_ROOT/gradlew"
+"$REPO_ROOT/gradlew" "${tasks[@]}"
