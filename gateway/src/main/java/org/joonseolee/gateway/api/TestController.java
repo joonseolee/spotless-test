@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/test")
 public class TestController {
 
+  /**
+   * Responds to GET requests with a JSON object containing a greeting sentence.
+   *
+   * @return a map with the key "sentence" and the value "hello world!"
+   */
   @GetMapping
   public Object sayHello() {
     // 아무것도 아닌것도 만들어야지
